@@ -126,26 +126,33 @@
             "</div>"
           : "";
 
+        var bodyHtml = (function () {
+          var desc = project.description;
+          if (!desc) {
+            return "";
+          }
+          var paragraphs = Array.isArray(desc) ? desc : [desc];
+          return paragraphs
+            .map(function (para) {
+              return "<p>" + escapeHtml(para) + "</p>";
+            })
+            .join("");
+        })();
+
+        var metaHtml =
+          (tags ? '<div class="entry-tags">' + tags + "</div>" : "") +
+          (links ? '<div class="entry-links">' + links + "</div>" : "");
+
         return (
-          '<article class="entry project-card">' +
+          '<article class="entry project-card' +
+          (figuresHtml ? " has-figures" : "") +
+          '">' +
+          '<div class="project-main">' +
           '<div class="entry-title">' + escapeHtml(project.title) + "</div>" +
-          '<div class="entry-body">' +
-          (function () {
-            var desc = project.description;
-            if (!desc) {
-              return "";
-            }
-            var paragraphs = Array.isArray(desc) ? desc : [desc];
-            return paragraphs
-              .map(function (para) {
-                return "<p>" + escapeHtml(para) + "</p>";
-              })
-              .join("");
-          })() +
+          '<div class="entry-body">' + bodyHtml + "</div>" +
           "</div>" +
           figuresHtml +
-          (tags ? '<div class="entry-tags">' + tags + "</div>" : "") +
-          (links ? '<div class="entry-links">' + links + "</div>" : "") +
+          (metaHtml ? '<div class="project-meta">' + metaHtml + "</div>" : "") +
           "</article>"
         );
       })
