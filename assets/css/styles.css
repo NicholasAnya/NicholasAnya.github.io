@@ -367,7 +367,7 @@ p {
 @media (min-width: 880px) {
   .project-card {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     column-gap: clamp(1.75rem, 3vw, 3rem);
     row-gap: 0;
     align-items: start;
@@ -384,7 +384,9 @@ p {
   .project-card.has-figures .project-figures {
     grid-column: 2;
     grid-row: 1 / span 2;
-    align-self: center;
+    align-self: start;
+    position: sticky;
+    top: 88px;
     margin: 0;
   }
 
