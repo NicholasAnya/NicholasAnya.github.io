@@ -13,6 +13,11 @@
       "demoUrl": "",
       "figures": [
         {
+          "src": "assets/img/projects/bgp-analyzer-bogons.png",
+          "alt": "Bar chart of bogon prefix announcements observed per internet exchange",
+          "caption": "Bogon (invalid or unallocated) prefix announcements per IXP."
+        },
+        {
           "src": "assets/img/projects/bgp-analyzer-stateless-anomalies.png",
           "alt": "Bar chart comparing stateless routing anomaly rates between bilateral and multilateral peering sessions",
           "caption": "Routing anomalies by peering model (bilateral vs. multilateral)."
@@ -21,11 +26,6 @@
           "src": "assets/img/projects/bgp-analyzer-irr-rpki.png",
           "alt": "Chart comparing RPKI and IRR validation rates between bilateral and multilateral peering sessions",
           "caption": "Route validation rates (RPKI and IRR) by peering model."
-        },
-        {
-          "src": "assets/img/projects/bgp-analyzer-bogons.png",
-          "alt": "Bar chart of bogon prefix announcements observed per internet exchange",
-          "caption": "Bogon (invalid or unallocated) prefix announcements per IXP."
         },
         {
           "src": "assets/img/projects/bgp-analyzer-rpki-longitudinal.png",
@@ -66,14 +66,14 @@
       "demoUrl": "",
       "figures": [
         {
-          "src": "assets/img/projects/electrification-multi-exam-correlation.png",
-          "alt": "Scatterplot comparing nighttime light intensity with PLE, UCE, and UACE exam performance in Uganda",
-          "caption": "Nightlight intensity compared with PLE, UCE, and UACE performance, showing the strongest relationship at primary level."
-        },
-        {
           "src": "assets/img/projects/electrification-nightlight-district.png",
           "alt": "Map of Uganda showing district-level nighttime light intensity",
           "caption": "District-level nighttime light intensity across Uganda, used as a proxy for electrification."
+        },
+        {
+          "src": "assets/img/projects/electrification-multi-exam-correlation.png",
+          "alt": "Scatterplot comparing nighttime light intensity with PLE, UCE, and UACE exam performance in Uganda",
+          "caption": "Nightlight intensity compared with PLE, UCE, and UACE performance, showing the strongest relationship at primary level."
         },
         {
           "src": "assets/img/projects/electrification-school-correlation.png",
