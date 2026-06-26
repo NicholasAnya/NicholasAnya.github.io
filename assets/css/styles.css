@@ -390,10 +390,16 @@ p {
     margin: 0;
   }
 
+  .project-card:not(.has-figures) {
+    grid-template-columns: minmax(0, 1.7fr) minmax(0, 0.85fr);
+  }
+
   .project-card:not(.has-figures) .project-meta {
     grid-column: 2;
     grid-row: 1 / -1;
     align-self: start;
+    position: sticky;
+    top: 88px;
     margin-top: 0;
     padding: 1.3rem 1.4rem;
     border: 1px solid var(--line);
