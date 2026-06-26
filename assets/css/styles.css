@@ -6,12 +6,12 @@
   --muted: #5b6573;
   --line: #e3e8f0;
   --line-strong: #d2d9e5;
-  --accent: #2f5de0;
-  --accent-strong: #1f44b8;
-  --accent-soft: #e9f0ff;
-  --accent-teal: #0d9488;
-  --link: #2f5de0;
-  --link-hover: #1f44b8;
+  --accent: #2a3a7c;
+  --accent-strong: #1c2a5e;
+  --accent-soft: #eaedf7;
+  --accent-2: #4a6fa5;
+  --link: #2a3a7c;
+  --link-hover: #1c2a5e;
   --shadow: 0 18px 45px rgba(20, 24, 32, 0.08);
   --shadow-soft: 0 10px 30px rgba(24, 38, 74, 0.06);
   --radius: 18px;
@@ -166,7 +166,7 @@ h2::before {
   width: 4px;
   height: 1.05em;
   border-radius: 999px;
-  background: linear-gradient(180deg, var(--accent), var(--accent-teal));
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
 }
 
 h3 {
@@ -183,8 +183,8 @@ p {
   position: relative;
   border-bottom: 1px solid var(--line);
   background:
-    radial-gradient(1100px 420px at 12% -15%, rgba(47, 93, 224, 0.12), transparent 60%),
-    radial-gradient(900px 480px at 100% -10%, rgba(13, 148, 136, 0.1), transparent 55%),
+    radial-gradient(1100px 420px at 12% -15%, rgba(42, 58, 124, 0.12), transparent 60%),
+    radial-gradient(900px 480px at 100% -10%, rgba(74, 111, 165, 0.12), transparent 55%),
     linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
 }
 
@@ -239,7 +239,7 @@ p {
   background: var(--accent);
   border-color: var(--accent);
   color: #fff;
-  box-shadow: 0 12px 24px rgba(47, 93, 224, 0.28);
+  box-shadow: 0 12px 24px rgba(42, 58, 124, 0.26);
 }
 
 .contact-links a.btn-primary:hover {
