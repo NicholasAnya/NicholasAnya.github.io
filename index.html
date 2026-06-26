@@ -18,7 +18,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="assets/css/styles.css" />
@@ -40,86 +40,94 @@
       </div>
     </header>
 
-    <main class="container">
-      <section class="intro">
-        <img
-          class="intro-photo"
-          src="assets/img/profile-photo.png"
-          alt="Portrait of Nicholas Brian Anya"
-        />
-        <h1>Nicholas B. Anya</h1>
-        <p>
-          Hello and welcome! I'm Nicholas, an IT professional and researcher with an MSc in
-          Information Technology from Carnegie Mellon University. I've worked across Uganda, Rwanda,
-          and the USA, with experience spanning data science, network engineering, telecommunications,
-          and cybersecurity.
-        </p>
-        <p class="contact-links">
-          <a href="mailto:anyanicholas@gmail.com">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
-            Contact me
-          </a>
-          <a href="https://linkedin.com/in/nbanya" target="_blank" rel="noopener noreferrer">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.3c0-1.26-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z" /></svg>
-            LinkedIn
-          </a>
-          <a href="NicholasBrianCV.pdf" target="_blank" rel="noopener noreferrer">
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12" /><path d="m7 12 5 5 5-5" /><path d="M5 21h14" /></svg>
-            Download my CV
-          </a>
-        </p>
+    <main>
+      <section class="hero">
+        <div class="container">
+          <div class="intro">
+            <img
+              class="intro-photo"
+              src="assets/img/profile-photo.png"
+              alt="Portrait of Nicholas Brian Anya"
+            />
+            <h1>Nicholas B. Anya</h1>
+            <p>
+              Hello and welcome! I'm Nicholas, an IT professional and researcher with an MSc in
+              Information Technology from Carnegie Mellon University. I've worked across Uganda, Rwanda,
+              and the USA, with experience spanning data science, network engineering, telecommunications,
+              and cybersecurity.
+            </p>
+            <p class="contact-links">
+              <a class="btn-primary" href="mailto:anyanicholas@gmail.com">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" /></svg>
+                Contact me
+              </a>
+              <a href="https://linkedin.com/in/nbanya" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95 4.03 0 4.78 2.5 4.78 5.75V21h-4v-5.3c0-1.26-.02-2.9-1.77-2.9-1.77 0-2.04 1.38-2.04 2.8V21H9z" /></svg>
+                LinkedIn
+              </a>
+              <a href="NicholasBrianCV.pdf" target="_blank" rel="noopener noreferrer">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12" /><path d="m7 12 5 5 5-5" /><path d="M5 21h14" /></svg>
+                Download my CV
+              </a>
+            </p>
+          </div>
+        </div>
       </section>
 
       <section class="section" id="projects">
-        <h2>Projects</h2>
-        <p class="section-note">
-          Selected projects demonstrating my approach to applied data analysis: defining the
-          question, working with real-world datasets, and communicating findings through clear
-          visual evidence. Links to code, notebooks, or results are included where available.
-        </p>
-        <div id="projects-list"></div>
+        <div class="container">
+          <h2>Projects</h2>
+          <p class="section-note">
+            Selected projects demonstrating my approach to applied data analysis: defining the
+            question, working with real-world datasets, and communicating findings through clear
+            visual evidence. Links to code, notebooks, or results are included where available.
+          </p>
+          <div id="projects-list"></div>
+        </div>
       </section>
 
       <section class="section" id="publications">
-        <h2>Papers</h2>
+        <div class="container">
+          <h2>Papers</h2>
+          <div class="papers-grid">
+            <div class="entry">
+              <div class="entry-title">
+                A Call to Arms: Motivating an Internet Measurements Observatory for Africa
+              </div>
+              <div class="entry-meta">HotNets 2025, Washington D.C., USA</div>
+              <div class="entry-links">
+                <a href="https://doi.org/10.1145/3772356.3772405" target="_blank" rel="noopener noreferrer"
+                  >doi.org/10.1145/3772356.3772405</a
+                >
+              </div>
+            </div>
 
-        <div class="entry">
-          <div class="entry-title">
-            A Call to Arms: Motivating an Internet Measurements Observatory for Africa
-          </div>
-          <div class="entry-meta">HotNets 2025, Washington D.C., USA</div>
-          <div class="entry-links">
-            <a href="https://doi.org/10.1145/3772356.3772405" target="_blank" rel="noopener noreferrer"
-              >doi.org/10.1145/3772356.3772405</a
-            >
-          </div>
-        </div>
+            <div class="entry">
+              <div class="entry-title">
+                Towards Comprehensive Mapping of Africa's Internet Infrastructure
+              </div>
+              <div class="entry-meta">ANRW 2025, Madrid, Spain</div>
+              <div class="entry-links">
+                <a href="https://doi.org/10.1145/3744200.3744768" target="_blank" rel="noopener noreferrer"
+                  >doi.org/10.1145/3744200.3744768</a
+                >
+              </div>
+            </div>
 
-        <div class="entry">
-          <div class="entry-title">
-            Towards Comprehensive Mapping of Africa's Internet Infrastructure
-          </div>
-          <div class="entry-meta">ANRW 2025, Madrid, Spain</div>
-          <div class="entry-links">
-            <a href="https://doi.org/10.1145/3744200.3744768" target="_blank" rel="noopener noreferrer"
-              >doi.org/10.1145/3744200.3744768</a
-            >
-          </div>
-        </div>
-
-        <div class="entry">
-          <div class="entry-title">
-            Bridging the Connectivity Gap Using Unconventional Last-Mile Solutions
-          </div>
-          <div class="entry-meta">Ubuntunet Connect 2023, Kampala, Uganda</div>
-          <div class="entry-links">
-            <a href="https://doi.org/10.60763/africarxiv/52" target="_blank" rel="noopener noreferrer"
-              >doi.org/10.60763/africarxiv/52</a
-            >
+            <div class="entry">
+              <div class="entry-title">
+                Bridging the Connectivity Gap Using Unconventional Last-Mile Solutions
+              </div>
+              <div class="entry-meta">Ubuntunet Connect 2023, Kampala, Uganda</div>
+              <div class="entry-links">
+                <a href="https://doi.org/10.60763/africarxiv/52" target="_blank" rel="noopener noreferrer"
+                  >doi.org/10.60763/africarxiv/52</a
+                >
+              </div>
+            </div>
           </div>
         </div>
       </section>
-
     </main>
 
     <footer class="site-footer">

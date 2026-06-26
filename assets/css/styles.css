@@ -1,14 +1,19 @@
 :root {
-  --bg: #f7f7f4;
+  --bg: #f5f7fb;
   --surface: #ffffff;
-  --surface-soft: #fbfbf9;
-  --text: #171717;
-  --muted: #666a73;
-  --line: #e2e2dc;
-  --line-strong: #d2d2ca;
-  --link: #174ea6;
-  --link-hover: #0f3472;
+  --surface-soft: #f1f5fb;
+  --text: #141821;
+  --muted: #5b6573;
+  --line: #e3e8f0;
+  --line-strong: #d2d9e5;
+  --accent: #2f5de0;
+  --accent-strong: #1f44b8;
+  --accent-soft: #e9f0ff;
+  --accent-teal: #0d9488;
+  --link: #2f5de0;
+  --link-hover: #1f44b8;
   --shadow: 0 18px 45px rgba(20, 24, 32, 0.08);
+  --shadow-soft: 0 10px 30px rgba(24, 38, 74, 0.06);
   --radius: 18px;
   --max-width: 1120px;
   --content-width: 760px;
@@ -63,7 +68,7 @@ img {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(247, 247, 244, 0.86);
+  background: rgba(245, 247, 251, 0.82);
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(14px);
 }
@@ -89,13 +94,13 @@ img {
 
 .brand-photo {
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 999px;
   background-image: url("../img/profile-photo.png");
   background-position: center;
   background-size: cover;
-  box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--line);
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 3px var(--accent-soft);
   flex: none;
 }
 
@@ -119,13 +124,13 @@ img {
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1;
-  padding: 0.55rem 0.75rem;
+  padding: 0.55rem 0.8rem;
   border-radius: 999px;
 }
 
 .nav-links a:hover {
-  color: var(--text);
-  background: var(--surface);
+  color: var(--accent-strong);
+  background: var(--accent-soft);
   text-decoration: none;
 }
 
@@ -141,13 +146,27 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.1rem, 4vw, 3.1rem);
   margin-bottom: 0.65rem;
+  letter-spacing: -0.02em;
 }
 
 h2 {
-  font-size: 1.35rem;
-  margin-bottom: 0.8rem;
+  position: relative;
+  font-size: 1.4rem;
+  margin-bottom: 0.85rem;
+  padding-left: 0.95rem;
+}
+
+h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.18em;
+  width: 4px;
+  height: 1.05em;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-teal));
 }
 
 h3 {
@@ -159,15 +178,24 @@ p {
   margin: 0 0 1rem;
 }
 
-/* Intro */
+/* Hero */
+.hero {
+  position: relative;
+  border-bottom: 1px solid var(--line);
+  background:
+    radial-gradient(1100px 420px at 12% -15%, rgba(47, 93, 224, 0.12), transparent 60%),
+    radial-gradient(900px 480px at 100% -10%, rgba(13, 148, 136, 0.1), transparent 55%),
+    linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+}
+
 .intro {
   width: min(100%, var(--content-width));
-  padding: 4.5rem 0 2.4rem;
+  padding: clamp(3rem, 6vw, 5rem) 0 clamp(2.4rem, 4vw, 3.4rem);
 }
 
 .intro-photo {
-  width: 118px;
-  height: 118px;
+  width: 122px;
+  height: 122px;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 1.6rem;
@@ -177,10 +205,11 @@ p {
 .intro p {
   color: var(--text);
   max-width: 66ch;
+  font-size: 1.05rem;
 }
 
 .contact-links {
-  margin-top: 1.2rem;
+  margin-top: 1.4rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem;
@@ -191,19 +220,32 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  padding: 0.55rem 0.8rem;
+  padding: 0.6rem 0.95rem;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface);
   color: var(--text);
-  box-shadow: 0 6px 18px rgba(20, 24, 32, 0.04);
+  box-shadow: var(--shadow-soft);
 }
 
 .contact-links a:hover {
-  border-color: var(--line-strong);
-  color: var(--link-hover);
+  border-color: var(--accent);
+  color: var(--accent-strong);
   text-decoration: none;
   transform: translateY(-1px);
+}
+
+.contact-links a.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(47, 93, 224, 0.28);
+}
+
+.contact-links a.btn-primary:hover {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: #fff;
 }
 
 .icon {
@@ -214,13 +256,16 @@ p {
 
 /* Sections */
 .section {
-  padding: 3.2rem 0;
+  padding: clamp(2.6rem, 5vw, 4rem) 0;
+}
+
+.section + .section {
   border-top: 1px solid var(--line);
 }
 
 .section-note {
   color: var(--muted);
-  margin: -0.2rem 0 1.8rem;
+  margin: -0.2rem 0 1.9rem;
   max-width: 72ch;
 }
 
@@ -249,38 +294,66 @@ p {
   max-width: 74ch;
 }
 
+/* Projects */
 #projects-list {
   display: grid;
   gap: 1.65rem;
 }
 
 .project-card {
-  padding: clamp(1.25rem, 2.4vw, 2rem);
+  position: relative;
+  padding: clamp(1.3rem, 2.4vw, 2.1rem);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
-  box-shadow: 0 10px 30px rgba(20, 24, 32, 0.05);
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+}
+
+.project-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow);
 }
 
 .project-card .entry-title {
-  font-size: 1.18rem;
+  font-size: 1.22rem;
 }
 
 .entry-body {
-  margin-top: 0.2rem;
+  margin-top: 0.4rem;
 }
 
-#publications .entry {
-  padding: 1rem 0;
-  border-top: 1px solid var(--line);
+/* Papers */
+.papers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
 }
 
-#publications .entry:first-of-type {
-  border-top: 0;
+.papers-grid .entry {
+  margin: 0;
+  padding: 1.2rem 1.3rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
 }
 
+.papers-grid .entry:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow);
+}
+
+.papers-grid .entry-title {
+  line-height: 1.45;
+}
+
+/* Project figures / carousel */
 .project-figures {
-  margin: 1.3rem 0 0.8rem;
+  margin: 1.4rem 0 0.8rem;
   border: 1px solid var(--line);
   border-radius: calc(var(--radius) - 4px);
   background: var(--surface-soft);
@@ -292,7 +365,7 @@ p {
 }
 
 .figure-track {
-  padding: 0.75rem;
+  padding: 0.85rem;
 }
 
 .project-figures img {
@@ -306,7 +379,7 @@ p {
 }
 
 .project-figures figcaption {
-  margin-top: 0.65rem;
+  margin-top: 0.7rem;
   color: var(--muted);
   font-size: 0.86rem;
   line-height: 1.5;
@@ -317,7 +390,7 @@ p {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.7rem 0.75rem;
+  padding: 0.7rem 0.85rem;
   border-top: 1px solid var(--line);
   background: var(--surface);
   color: var(--muted);
@@ -328,25 +401,28 @@ p {
   appearance: none;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--bg);
+  background: var(--surface);
   color: var(--text);
   cursor: pointer;
   font: inherit;
   font-size: 1.2rem;
   line-height: 1;
-  width: 2rem;
-  height: 2rem;
+  width: 2.1rem;
+  height: 2.1rem;
   padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .figure-control:hover {
-  border-color: var(--text);
-  background: var(--text);
-  color: var(--surface);
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
 }
 
 .figure-control:focus-visible {
-  outline: 2px solid var(--link);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -362,30 +438,34 @@ p {
   display: flex;
   justify-content: center;
   gap: 0.45rem;
-  padding: 0 0.75rem 0.75rem;
+  padding: 0 0.75rem 0.85rem;
   background: var(--surface);
 }
 
 .figure-dot {
   appearance: none;
-  width: 0.42rem;
-  height: 0.42rem;
+  width: 0.45rem;
+  height: 0.45rem;
   padding: 0;
   border: 0;
   border-radius: 999px;
   background: var(--line-strong);
   cursor: pointer;
+  transition: background var(--ease), transform var(--ease);
 }
 
-.figure-dot.is-active,
+.figure-dot.is-active {
+  background: var(--accent);
+  transform: scale(1.25);
+}
+
 .figure-dot:hover {
-  background: var(--text);
+  background: var(--accent);
 }
 
+/* Tags & links */
 .entry-tags {
-  margin-top: 1rem;
-  color: var(--muted);
-  font-size: 0.85rem;
+  margin-top: 1.1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
@@ -394,17 +474,18 @@ p {
 .tag {
   display: inline-flex;
   align-items: center;
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   border-radius: 999px;
-  background: var(--surface-soft);
-  color: var(--muted);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
   font-size: 0.78rem;
+  font-weight: 500;
   line-height: 1;
-  padding: 0.42rem 0.6rem;
+  padding: 0.42rem 0.7rem;
 }
 
 .entry-links {
-  margin-top: 1rem;
+  margin-top: 1.1rem;
   font-size: 0.9rem;
   display: flex;
   flex-wrap: wrap;
@@ -415,7 +496,7 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.52rem 0.72rem;
+  padding: 0.55rem 0.8rem;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface);
@@ -424,10 +505,25 @@ p {
 }
 
 .entry-links a:hover {
-  border-color: var(--line-strong);
-  color: var(--link-hover);
+  border-color: var(--accent);
+  color: var(--accent-strong);
+  background: var(--accent-soft);
   text-decoration: none;
   transform: translateY(-1px);
+}
+
+.papers-grid .entry-links a {
+  border-color: transparent;
+  background: transparent;
+  padding: 0;
+  color: var(--link);
+  font-size: 0.85rem;
+}
+
+.papers-grid .entry-links a:hover {
+  background: transparent;
+  transform: none;
+  text-decoration: underline;
 }
 
 .empty-state {
@@ -438,11 +534,11 @@ p {
 /* Footer */
 .site-footer {
   border-top: 1px solid var(--line);
-  margin-top: 1.5rem;
+  background: var(--surface);
 }
 
 .site-footer .container {
-  padding: 1.5rem 0 2.8rem;
+  padding: 1.6rem 0 2.8rem;
   color: var(--muted);
   font-size: 0.85rem;
 }
@@ -450,10 +546,6 @@ p {
 @media (max-width: 540px) {
   .container {
     width: min(100% - 1.3rem, var(--max-width));
-  }
-
-  .intro {
-    padding-top: 2rem;
   }
 
   .nav-wrap {
@@ -474,7 +566,7 @@ p {
   }
 
   .project-card {
-    padding: 1rem;
+    padding: 1.1rem;
     border-radius: 14px;
   }
 
@@ -487,8 +579,7 @@ p {
     border-radius: 10px;
   }
 
-  .contact-links a,
-  .entry-links a {
+  .contact-links a {
     width: 100%;
     justify-content: center;
   }
