@@ -1,0 +1,105 @@
+{
+  "projects": [
+    {
+      "title": "Routing Hygiene at Internet Exchange Points",
+      "description": [
+        "Internet Exchange Points (IXPs) are shared interconnection facilities where many networks meet to exchange traffic directly, rather than sending it through upstream transit providers. They help improve performance, reduce latency and transit costs, and keep more traffic local. Because IXPs sit at dense points of the global Internet, routing decisions made there can affect reachability, resilience, and security beyond a single network.",
+        "At many IXPs, networks can peer through a shared route server, which simplifies interconnection by allowing many participants to exchange routes through one common platform. They can also establish direct bilateral BGP sessions, which give operators more control over routing policy. A common assumption is that direct peering may be cleaner or safer because it is more controlled, but that assumption needs evidence.",
+        "To investigate this, I built a tool that analyzes BGP routing data at scale. BGP is the protocol that determines how traffic moves between networks, and the tool detects routing-hygiene and security issues such as route leaks, invalid prefixes, bogon announcements, and announcements that fail RPKI or IRR validation. The analysis combines routing snapshots from PCH route collectors and a large CDN with reference datasets from RIPE NCC, IRR, CAIDA, Team Cymru, and Cloudflare Radar.",
+        "Across hundreds of IXPs and a large CDN, the results showed that neither peering model is uniformly better: each carries different routing risks. Route-server peering showed stronger formal validation in some areas, while direct bilateral sessions exposed other low-level hygiene issues and confirmed route leaks. The result is a more precise view of how interconnection choices shape routing security and reliability at Internet scale."
+      ],
+      "tags": ["data analysis", "Python", "BGP", "data visualization"],
+      "repoUrl": "https://github.com/NicholasAnya/bgp_analyzer",
+      "demoUrl": "",
+      "figures": [
+        {
+          "src": "assets/img/projects/bgp-analyzer-stateless-anomalies.png",
+          "alt": "Bar chart comparing stateless routing anomaly rates between bilateral and multilateral peering sessions",
+          "caption": "Routing anomalies by peering model (bilateral vs. multilateral)."
+        },
+        {
+          "src": "assets/img/projects/bgp-analyzer-irr-rpki.png",
+          "alt": "Chart comparing RPKI and IRR validation rates between bilateral and multilateral peering sessions",
+          "caption": "Route validation rates (RPKI and IRR) by peering model."
+        },
+        {
+          "src": "assets/img/projects/bgp-analyzer-bogons.png",
+          "alt": "Bar chart of bogon prefix announcements observed per internet exchange",
+          "caption": "Bogon (invalid or unallocated) prefix announcements per IXP."
+        },
+        {
+          "src": "assets/img/projects/bgp-analyzer-rpki-longitudinal.png",
+          "alt": "Line chart of RPKI-valid announcement share over time by peering model",
+          "caption": "RPKI-valid announcement share over time by peering model."
+        }
+      ]
+    },
+    {
+      "title": "Subsea Cable Analysis",
+      "description": [
+        "Submarine Internet cables are the physical backbone of global connectivity, carrying traffic between continents and connecting regional networks to the wider Internet. For Africa, subsea cable routes are especially important because they shape latency, resilience, and the extent to which regional traffic stays local or exits through international paths.",
+        "This project analyzes how traceroute paths map onto likely submarine cable infrastructure. I processed hop-level traceroute data into public IP-to-IP links, classified traffic as intra-regional, inter-regional, or international, and identified links that were definitely or potentially submarine based on geography and landing-station availability.",
+        "To estimate which cables were most likely involved, I combined cable metadata, landing-station locations, country pairs, and proximity-based scoring. The pipeline assigns candidate cables to observed links, separates African regional traffic patterns, and produces summary tables and plots that show how different regions appear to depend on specific subsea cable systems.",
+        "The result is a practical data pipeline for turning noisy network measurements into interpretable infrastructure insights. It demonstrates data cleaning, geospatial reasoning, network measurement, and visualization work while highlighting how physical cable topology can influence Internet performance and resilience."
+      ],
+      "tags": ["data analysis", "Python", "geospatial analysis", "network measurement"],
+      "repoUrl": "https://github.com/NicholasAnya/subsea_analysis/tree/main",
+      "demoUrl": "",
+      "documents": [
+        {
+          "url": "assets/docs/projects/subsea-cable-usage-combined.pdf",
+          "label": "View cable usage result"
+        }
+      ],
+      "figures": []
+    },
+    {
+      "title": "Electrification and Exam Performance in Uganda",
+      "description": [
+        "Electricity access is often treated as a foundation for educational development, but its relationship with actual academic performance is harder to measure. In Uganda, where electrification varies sharply across districts, this project used satellite-derived nighttime light data as a proxy for electrification and compared it with national examination results across primary, lower secondary, and upper secondary levels.",
+        "The analysis combined VIIRS nighttime light data, Uganda district boundaries, school-level examination records, and school geolocation data. I aggregated nightlight intensity at the district level, extracted localized radiance around schools, and built comparable performance indices for PLE, UCE, and UACE results. This made it possible to test whether broader district electrification and local school-area lighting were associated with exam outcomes.",
+        "The results showed a meaningful district-level relationship between electrification and performance, with the strongest correlation at primary level and weaker relationships at higher levels. At school level, however, the association was much weaker, suggesting that electricity is important but not sufficient on its own. Teaching quality, school resources, socioeconomic conditions, and local context still matter.",
+        "The project demonstrates how remote sensing and public administrative data can be combined to study education and infrastructure questions in a data-scarce setting. It also highlights a policy-relevant finding: electrification may support better learning environments, but targeted education interventions are still needed, especially in underperforming districts."
+      ],
+      "tags": ["data analysis", "remote sensing", "geospatial analysis", "education data"],
+      "repoUrl": "",
+      "demoUrl": "",
+      "figures": [
+        {
+          "src": "assets/img/projects/electrification-multi-exam-correlation.png",
+          "alt": "Scatterplot comparing nighttime light intensity with PLE, UCE, and UACE exam performance in Uganda",
+          "caption": "Nightlight intensity compared with PLE, UCE, and UACE performance, showing the strongest relationship at primary level."
+        },
+        {
+          "src": "assets/img/projects/electrification-nightlight-district.png",
+          "alt": "Map of Uganda showing district-level nighttime light intensity",
+          "caption": "District-level nighttime light intensity across Uganda, used as a proxy for electrification."
+        },
+        {
+          "src": "assets/img/projects/electrification-school-correlation.png",
+          "alt": "Scatterplot showing weak correlation between local nighttime light radiance and school-level exam performance",
+          "caption": "School-level analysis showed a weaker relationship, suggesting electrification alone does not explain academic outcomes."
+        }
+      ]
+    },
+    {
+      "title": "Question Answering Model Evaluation and Optimization",
+      "description": [
+        "This project builds and evaluates a question-answering pipeline on the Stanford Question Answering Dataset (SQuAD), a large reading-comprehension dataset where models must locate answers inside supporting text passages. The goal was not only to train a model, but to compare how different NLP approaches perform as the task moves from simple answer-sentence selection to exact answer extraction.",
+        "I started with lightweight baseline methods, including Jaccard overlap and TF-IDF similarity, to identify the sentence most likely to contain the answer. I then tested semantic sentence embeddings using a pretrained DistilBERT sentence transformer, added linguistic features with spaCy dependency parsing, and trained a logistic regression classifier on engineered sentence-pair features. This progression made the evaluation interpretable: each model added more linguistic or semantic information while performance and runtime trade-offs were tracked.",
+        "The final stage used a pretrained BERT question-answering model and fine-tuned it for answer-span prediction. This required converting SQuAD character-level answer positions into token-level start and end positions, building a PyTorch-compatible dataset and tokenizer workflow, and optimizing the training loop for GPU execution.",
+        "The project demonstrates practical NLP model development: baselines, feature engineering, transformer fine-tuning, evaluation design, and runtime optimization. It also shows the importance of starting with simple, explainable methods before moving to heavier neural models."
+      ],
+      "tags": ["NLP", "machine learning", "BERT", "model evaluation", "Python"],
+      "repoUrl": "",
+      "demoUrl": "",
+      "documents": [
+        {
+          "url": "https://github.com/NicholasAnya/Notebooks/blob/main/evaluation_optimization.ipynb",
+          "label": "View notebook on GitHub"
+        }
+      ],
+      "figures": []
+    }
+  ]
+}
