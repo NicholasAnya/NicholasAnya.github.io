@@ -199,6 +199,7 @@ p {
 }
 
 .intro-media {
+  order: -1;
   display: flex;
   justify-content: center;
 }
