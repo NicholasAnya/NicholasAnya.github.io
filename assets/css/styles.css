@@ -351,6 +351,12 @@ p {
   margin-top: 0.4rem;
 }
 
+.project-card .entry-body {
+  text-align: justify;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
 .project-main {
   min-width: 0;
 }
