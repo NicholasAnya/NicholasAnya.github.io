@@ -8,6 +8,97 @@
     });
   }
 
+  var yearNode = document.getElementById("footer-year");
+  if (yearNode) {
+    yearNode.textContent = new Date().getFullYear();
+  }
+
+  // Header: elevate once scrolled, and track reading progress
+  var header = document.querySelector(".site-header");
+  var progressBar = document.querySelector(".scroll-progress");
+  if (header) {
+    var onScroll = function () {
+      header.classList.toggle("is-scrolled", window.scrollY > 8);
+      if (progressBar) {
+        var doc = document.documentElement;
+        var max = doc.scrollHeight - window.innerHeight;
+        progressBar.style.transform =
+          "scaleX(" + (max > 0 ? Math.min(window.scrollY / max, 1) : 0) + ")";
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    onScroll();
+  }
+
+  // Nav: highlight the section currently in view
+  var navLinks = Array.prototype.slice.call(
+    document.querySelectorAll('.nav-links a[href^="#"]')
+  );
+  var sections = navLinks
+    .map(function (link) {
+      return document.querySelector(link.getAttribute("href"));
+    })
+    .filter(Boolean);
+
+  if ("IntersectionObserver" in window && sections.length) {
+    var setActive = function (id) {
+      navLinks.forEach(function (link) {
+        link.classList.toggle("is-active", link.getAttribute("href") === "#" + id);
+      });
+    };
+    var spy = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    sections.forEach(function (section) {
+      spy.observe(section);
+    });
+  }
+
+  // Scroll reveal for sections and cards
+  var revealObserver = null;
+  if (
+    "IntersectionObserver" in window &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08 }
+    );
+  }
+
+  function reveal(elements) {
+    Array.prototype.forEach.call(elements, function (el) {
+      if (el.hasAttribute("data-reveal")) {
+        return;
+      }
+      el.setAttribute("data-reveal", "");
+      if (revealObserver) {
+        revealObserver.observe(el);
+      } else {
+        el.classList.add("is-visible");
+      }
+    });
+  }
+
+  reveal(
+    document.querySelectorAll(".section .kicker, .section h2, .section-note, .papers-grid .entry")
+  );
+
   var projectsList = document.getElementById("projects-list");
   if (!projectsList) {
     return;
@@ -91,9 +182,12 @@
                   '" alt="' +
                   escapeHtml(figure.alt) +
                   '" loading="lazy" />' +
-                  (figure.caption
-                    ? "<figcaption>" + escapeHtml(figure.caption) + "</figcaption>"
-                    : "") +
+                  "<figcaption>" +
+                  '<span class="fig-label">Fig. ' +
+                  ("0" + (figureIndex + 1)).slice(-2) +
+                  "</span>" +
+                  (figure.caption ? escapeHtml(figure.caption) : "") +
+                  "</figcaption>" +
                   "</figure>"
                 );
               })
@@ -107,17 +201,19 @@
                 "</span>" +
                 '<button type="button" class="figure-control" data-carousel-next aria-label="Show next figure">&rsaquo;</button>' +
                 "</div>" +
-                '<div class="figure-dots" aria-label="Figure navigation">' +
+                '<div class="figure-thumbs" aria-label="Figure navigation">' +
                 figures
-                  .map(function (_, figureIndex) {
+                  .map(function (figure, figureIndex) {
                     return (
-                      '<button type="button" class="figure-dot' +
+                      '<button type="button" class="figure-thumb' +
                       (figureIndex === 0 ? " is-active" : "") +
                       '" data-carousel-dot="' +
                       figureIndex +
                       '" aria-label="Show figure ' +
                       (figureIndex + 1) +
-                      '"></button>'
+                      '"><img src="' +
+                      escapeHtml(figure.src) +
+                      '" alt="" loading="lazy" /></button>'
                     );
                   })
                   .join("") +
@@ -207,8 +303,100 @@
           showFigure(Number(dot.getAttribute("data-carousel-dot")));
         });
       });
+
+      if (figures.length > 1) {
+        // Arrow-key navigation when the carousel is focused
+        carousel.setAttribute("tabindex", "0");
+        carousel.setAttribute("role", "group");
+        carousel.setAttribute("aria-label", "Project figures, use arrow keys to navigate");
+        carousel.addEventListener("keydown", function (event) {
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            showFigure(activeIndex - 1);
+          } else if (event.key === "ArrowRight") {
+            event.preventDefault();
+            showFigure(activeIndex + 1);
+          }
+        });
+
+        // Swipe navigation on touch devices
+        var touchStartX = null;
+        carousel.addEventListener(
+          "touchstart",
+          function (event) {
+            touchStartX = event.changedTouches[0].clientX;
+          },
+          { passive: true }
+        );
+        carousel.addEventListener(
+          "touchend",
+          function (event) {
+            if (touchStartX === null) {
+              return;
+            }
+            var deltaX = event.changedTouches[0].clientX - touchStartX;
+            touchStartX = null;
+            if (Math.abs(deltaX) > 45) {
+              showFigure(deltaX < 0 ? activeIndex + 1 : activeIndex - 1);
+            }
+          },
+          { passive: true }
+        );
+      }
     });
   }
+
+  // Lightbox: click a figure to view it full-screen
+  var lightbox = document.createElement("div");
+  lightbox.className = "lightbox";
+  lightbox.hidden = true;
+  lightbox.setAttribute("role", "dialog");
+  lightbox.setAttribute("aria-modal", "true");
+  lightbox.setAttribute("aria-label", "Enlarged figure");
+  lightbox.innerHTML =
+    '<figure><img alt="" /><figcaption></figcaption></figure>' +
+    '<button type="button" class="lightbox-close" aria-label="Close enlarged figure">&times;</button>';
+  document.body.appendChild(lightbox);
+
+  var lightboxImg = lightbox.querySelector("img");
+  var lightboxCaption = lightbox.querySelector("figcaption");
+  var lightboxTimer = null;
+
+  function openLightbox(img) {
+    var figure = img.closest("figure");
+    var caption = figure ? figure.querySelector("figcaption") : null;
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt || "";
+    lightboxCaption.innerHTML = caption ? caption.innerHTML : "";
+    window.clearTimeout(lightboxTimer);
+    lightbox.hidden = false;
+    document.body.style.overflow = "hidden";
+    void lightbox.offsetWidth;
+    lightbox.classList.add("is-open");
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove("is-open");
+    document.body.style.overflow = "";
+    lightboxTimer = window.setTimeout(function () {
+      lightbox.hidden = true;
+      lightboxImg.removeAttribute("src");
+    }, 240);
+  }
+
+  lightbox.addEventListener("click", closeLightbox);
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && !lightbox.hidden) {
+      closeLightbox();
+    }
+  });
+
+  projectsList.addEventListener("click", function (event) {
+    var img = event.target.closest(".figure-track img");
+    if (img) {
+      openLightbox(img);
+    }
+  });
 
   fetch("assets/data/projects.json")
     .then(function (res) {
@@ -220,6 +408,7 @@
     .then(function (data) {
       renderProjects(Array.isArray(data.projects) ? data.projects : []);
       initProjectFigureCarousels();
+      reveal(projectsList.querySelectorAll(".project-card"));
     })
     .catch(function () {
       projectsList.innerHTML =

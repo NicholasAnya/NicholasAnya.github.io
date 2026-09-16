@@ -83,7 +83,7 @@
       ]
     },
     {
-      "title": "Question Answering Model Evaluation and Optimization",
+      "title": "Fine-Tuning BERT for Question Answering on SQuAD",
       "description": [
         "This project builds and evaluates a question-answering pipeline on the Stanford Question Answering Dataset (SQuAD), a large reading-comprehension dataset where models must locate answers inside supporting text passages. The goal was not only to train a model, but to compare how different NLP approaches perform as the task moves from simple answer-sentence selection to exact answer extraction.",
         "I started with lightweight baseline methods, including Jaccard overlap and TF-IDF similarity, to identify the sentence most likely to contain the answer. I then tested semantic sentence embeddings using a pretrained DistilBERT sentence transformer, added linguistic features with spaCy dependency parsing, and trained a logistic regression classifier on engineered sentence-pair features. This progression made the evaluation interpretable: each model added more linguistic or semantic information while performance and runtime trade-offs were tracked.",
