@@ -315,6 +315,38 @@ p {
   gap: 1.2rem;
 }
 
+/* Typewriter intro */
+[data-typewriter] {
+  position: relative;
+}
+
+.type-ghost {
+  visibility: hidden;
+}
+
+.type-live {
+  position: absolute;
+  inset: 0;
+  text-align: inherit;
+}
+
+.type-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 0.13em;
+  margin-left: 0.12em;
+  background: var(--accent);
+  border-radius: 1px;
+  vertical-align: baseline;
+  animation: cursor-blink 1.1s steps(1) infinite;
+}
+
+@keyframes cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
 .intro-text h1 {
   margin-bottom: 0;
 }
@@ -1026,6 +1058,10 @@ p {
   .intro-text > p:not(.contact-links),
   .intro-text > .contact-links {
     animation: none;
+  }
+
+  .type-cursor {
+    animation: none !important;
   }
 
   *,

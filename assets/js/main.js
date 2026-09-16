@@ -13,6 +13,67 @@
     yearNode.textContent = new Date().getFullYear();
   }
 
+  // Typewriter effect for the intro paragraph
+  var typeTarget = document.querySelector("[data-typewriter]");
+  if (typeTarget) {
+    var fullText = typeTarget.textContent.replace(/\s+/g, " ").trim();
+    var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var alreadyTyped = false;
+    try {
+      alreadyTyped = window.sessionStorage.getItem("intro-typed") === "1";
+    } catch (storageError) {
+      alreadyTyped = false;
+    }
+
+    // Ghost copy keeps the layout height fixed while the visible text types in
+    typeTarget.setAttribute("aria-label", fullText);
+    typeTarget.textContent = "";
+
+    var ghost = document.createElement("span");
+    ghost.className = "type-ghost";
+    ghost.setAttribute("aria-hidden", "true");
+    ghost.textContent = fullText;
+
+    var live = document.createElement("span");
+    live.className = "type-live";
+    live.setAttribute("aria-hidden", "true");
+    var liveText = document.createTextNode("");
+    var cursor = document.createElement("span");
+    cursor.className = "type-cursor";
+    live.appendChild(liveText);
+    live.appendChild(cursor);
+
+    typeTarget.appendChild(ghost);
+    typeTarget.appendChild(live);
+
+    if (reducedMotion || alreadyTyped) {
+      liveText.nodeValue = fullText;
+    } else {
+      var typedCount = 0;
+      var typeNext = function () {
+        typedCount += 1;
+        liveText.nodeValue = fullText.slice(0, typedCount);
+        if (typedCount >= fullText.length) {
+          try {
+            window.sessionStorage.setItem("intro-typed", "1");
+          } catch (storageError) {
+            /* private browsing: animation simply repeats */
+          }
+          return;
+        }
+        var lastChar = fullText.charAt(typedCount - 1);
+        var delay = 7 + Math.random() * 12;
+        if (lastChar === "." || lastChar === "!" || lastChar === "?") {
+          delay = 200;
+        } else if (lastChar === ",") {
+          delay = 90;
+        }
+        window.setTimeout(typeNext, delay);
+      };
+      window.setTimeout(typeNext, 450);
+    }
+  }
+
   // Header: elevate once scrolled, and track reading progress
   var header = document.querySelector(".site-header");
   var progressBar = document.querySelector(".scroll-progress");
