@@ -92,6 +92,62 @@
     onScroll();
   }
 
+  // CV preview: open the PDF in an in-page modal with a download option.
+  // On small screens the browser's native PDF handling works better.
+  var cvLinks = document.querySelectorAll('a[href$="NicholasBrianCV.pdf"]');
+  if (cvLinks.length) {
+    var cvModal = document.createElement("div");
+    cvModal.className = "cv-modal";
+    cvModal.hidden = true;
+    cvModal.setAttribute("role", "dialog");
+    cvModal.setAttribute("aria-label", "CV preview");
+    cvModal.innerHTML =
+      '<div class="cv-dialog">' +
+      '<div class="cv-dialog-header">' +
+      '<span class="cv-dialog-title">Curriculum Vitae</span>' +
+      '<span class="cv-dialog-actions">' +
+      '<a class="btn-primary" href="NicholasBrianCV.pdf" download>Download</a>' +
+      '<button type="button" class="cv-close" aria-label="Close CV preview">&times;</button>' +
+      "</span>" +
+      "</div>" +
+      '<iframe class="cv-frame" title="CV preview"></iframe>' +
+      "</div>";
+    document.body.appendChild(cvModal);
+
+    var cvFrame = cvModal.querySelector(".cv-frame");
+    var cvTimer = null;
+
+    var closeCv = function () {
+      cvModal.classList.remove("is-open");
+      cvTimer = window.setTimeout(function () {
+        cvModal.hidden = true;
+      }, 240);
+    };
+
+    Array.prototype.forEach.call(cvLinks, function (link) {
+      link.addEventListener("click", function (event) {
+        if (window.matchMedia("(max-width: 640px)").matches) {
+          return;
+        }
+        event.preventDefault();
+        if (!cvFrame.getAttribute("src")) {
+          cvFrame.setAttribute("src", "NicholasBrianCV.pdf");
+        }
+        window.clearTimeout(cvTimer);
+        cvModal.hidden = false;
+        void cvModal.offsetWidth;
+        cvModal.classList.add("is-open");
+      });
+    });
+
+    cvModal.querySelector(".cv-close").addEventListener("click", closeCv);
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape" && !cvModal.hidden) {
+        closeCv();
+      }
+    });
+  }
+
   // Nav: highlight the section currently in view
   var navLinks = Array.prototype.slice.call(
     document.querySelectorAll('.nav-links a[href^="#"]')
@@ -403,6 +459,68 @@
           },
           { passive: true }
         );
+
+        // Auto-advance while visible; hand control to the visitor for good
+        // as soon as they interact with this carousel.
+        if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          var autoTimer = null;
+          var autoStopped = false;
+          var inView = false;
+
+          var pauseAuto = function () {
+            if (autoTimer) {
+              window.clearInterval(autoTimer);
+              autoTimer = null;
+            }
+          };
+
+          var startAuto = function () {
+            if (autoStopped || !inView || autoTimer) {
+              return;
+            }
+            autoTimer = window.setInterval(function () {
+              showFigure(activeIndex + 1);
+            }, 5000);
+          };
+
+          var stopAutoForGood = function () {
+            autoStopped = true;
+            pauseAuto();
+          };
+
+          // Any direct interaction means the visitor is driving now
+          carousel.addEventListener("click", stopAutoForGood);
+          carousel.addEventListener("keydown", stopAutoForGood);
+          carousel.addEventListener("touchstart", stopAutoForGood, {
+            passive: true,
+          });
+
+          // Don't rotate under a hovering or focused reader
+          carousel.addEventListener("mouseenter", pauseAuto);
+          carousel.addEventListener("mouseleave", startAuto);
+          carousel.addEventListener("focusin", pauseAuto);
+          carousel.addEventListener("focusout", startAuto);
+
+          if ("IntersectionObserver" in window) {
+            var visibility = new IntersectionObserver(
+              function (entries) {
+                entries.forEach(function (entry) {
+                  inView = entry.isIntersecting;
+                  if (inView) {
+                    startAuto();
+                  } else {
+                    pauseAuto();
+                  }
+                });
+              },
+              { threshold: 0.4 }
+            );
+            visibility.observe(carousel);
+          } else {
+            inView = true;
+            startAuto();
+          }
+        }
       }
     });
   }
