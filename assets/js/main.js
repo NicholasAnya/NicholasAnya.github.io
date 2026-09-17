@@ -480,7 +480,7 @@
             }
             autoTimer = window.setInterval(function () {
               showFigure(activeIndex + 1);
-            }, 5000);
+            }, 4000);
           };
 
           var stopAutoForGood = function () {
