@@ -471,13 +471,48 @@
       initProjectFigureCarousels();
       reveal(projectsList.querySelectorAll(".project-card"));
 
-      // Projects render after the browser's initial anchor jump, pushing
-      // later sections down. Re-align to the requested hash once laid out.
-      if (window.location.hash) {
-        var anchorTarget = document.getElementById(window.location.hash.slice(1));
-        if (anchorTarget) {
-          anchorTarget.scrollIntoView();
-        }
+      // Projects and their images render after the browser's initial anchor
+      // jump, pushing later sections down. Keep re-aligning to the requested
+      // hash (instantly, not smoothly) until layout settles or the visitor
+      // starts scrolling on their own.
+      var hashId = window.location.hash ? window.location.hash.slice(1) : "";
+      if (hashId && document.getElementById(hashId)) {
+        var userTookOver = false;
+        ["wheel", "touchstart", "keydown"].forEach(function (eventName) {
+          window.addEventListener(
+            eventName,
+            function () {
+              userTookOver = true;
+            },
+            { passive: true, once: true }
+          );
+        });
+
+        var alignToHash = function () {
+          if (userTookOver) {
+            return;
+          }
+          var target = document.getElementById(hashId);
+          if (!target) {
+            return;
+          }
+          var root = document.documentElement;
+          var previousBehavior = root.style.scrollBehavior;
+          root.style.scrollBehavior = "auto";
+          target.scrollIntoView();
+          root.style.scrollBehavior = previousBehavior;
+        };
+
+        alignToHash();
+        Array.prototype.forEach.call(
+          projectsList.querySelectorAll("img"),
+          function (img) {
+            if (!img.complete) {
+              img.addEventListener("load", alignToHash, { once: true });
+            }
+          }
+        );
+        window.addEventListener("load", alignToHash, { once: true });
       }
     })
     .catch(function () {
