@@ -470,6 +470,15 @@
       renderProjects(Array.isArray(data.projects) ? data.projects : []);
       initProjectFigureCarousels();
       reveal(projectsList.querySelectorAll(".project-card"));
+
+      // Projects render after the browser's initial anchor jump, pushing
+      // later sections down. Re-align to the requested hash once laid out.
+      if (window.location.hash) {
+        var anchorTarget = document.getElementById(window.location.hash.slice(1));
+        if (anchorTarget) {
+          anchorTarget.scrollIntoView();
+        }
+      }
     })
     .catch(function () {
       projectsList.innerHTML =
